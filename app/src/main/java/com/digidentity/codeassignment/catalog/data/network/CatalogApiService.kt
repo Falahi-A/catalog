@@ -8,20 +8,20 @@ import retrofit2.http.Query
 
 interface CatalogApiService {
 
-    // ======== get catalog items ========
+    // ======== get catalog most recent items ========
     @GET("items")
-    fun getItems(): List<ItemNetResponse>
+    suspend fun getItems(): List<ItemNetResponse>
 
-    // ======== get catalog items more recent than specified id ========
+    // ======== get catalog more recent than specified id items ========
     @GET("items")
-    fun getItemsSince(@Query("since_id") sinceId: String): List<ItemNetResponse>
+    suspend fun getItemsSince(@Query("since_id") sinceId: String): List<ItemNetResponse>
 
-    // ======== get catalog items less or equal than specified id ========
+    // ======== get catalog less or equal than specified id items ========
     @GET("items")
-    fun getItemsMax(@Query("max_id") maxId: String): List<ItemNetResponse>
+    suspend fun getItemsMax(@Query("max_id") maxId: String): List<ItemNetResponse>
 
-    // ======== add new item ========
+    // ======== add new item to catalog ========
     @POST("items")
-    fun addNewItem(@Body item: String): ItemNetResponse
+    suspend fun addNewItem(@Body item: String): ItemNetResponse
 
 }
