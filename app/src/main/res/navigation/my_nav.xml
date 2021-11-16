@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myNav"
+    app:startDestination="@id/itemsFragment">
+
+    <fragment
+        android:id="@+id/itemsFragment"
+        android:name="com.digidentity.codeassignment.catalog.presentation.main.items.ItemsFragment"
+        android:label="Catalog Items"
+        tools:layout="@layout/fragment_items">
+
+        <action
+            android:id="@+id/action_itemsFragment_to_itemDetailsFragment2"
+            app:destination="@id/itemDetailsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemDetailsFragment"
+        android:name="com.digidentity.codeassignment.catalog.presentation.main.item_details.ItemDetailsFragment"
+        android:label="Item Details"
+        tools:layout="@layout/fragment_item_details">
+        <action
+            android:id="@+id/action_itemDetailsFragment_to_itemsFragment"
+            app:destination="@id/itemsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <argument
+            android:name="item"
+            app:argType="com.digidentity.codeassignment.catalog.domain.model.Item" />
+    </fragment>
+
+
+</navigation>
