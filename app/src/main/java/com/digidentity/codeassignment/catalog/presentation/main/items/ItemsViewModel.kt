@@ -20,6 +20,7 @@ class ItemsViewModel @Inject constructor(private val getCatalogItemsUseCase: Get
     val items: LiveData<ItemsViewState> = _items
 
 
+
     fun getItems(itemId: ItemId? = null) {
         getCatalogItemsUseCase(itemId).onEach { result ->
 
