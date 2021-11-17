@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemDetailsFragment">
+    tools:context=".presentation.main.item_details.ItemDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_item_details"
+        android:layout_width="156dp"
+        android:layout_height="156dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/line_details"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="@dimen/margin_8dp"
+        android:background="@color/teal_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_item_details" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_itemText_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginTop="@dimen/margin_2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_details" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_itemConfidence_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginTop="@dimen/margin_2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_itemText_details" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_itemId_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginTop="@dimen/margin_2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_itemConfidence_details" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

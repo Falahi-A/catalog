@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import com.digidentity.codeassignment.catalog.databinding.FragmentItemsBinding
 import com.digidentity.codeassignment.catalog.domain.model.Item
 import com.digidentity.codeassignment.catalog.presentation.base.BaseBindingFragment
-import com.digidentity.codeassignment.catalog.presentation.base.ItemsAdapter
 import com.digidentity.codeassignment.catalog.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
