@@ -51,7 +51,7 @@ class ItemsAdapter(private val onItemClick: (Item) -> Unit) :
 
     object DiffConfig : DiffUtil.ItemCallback<Item>() {
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem.id === newItem.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {

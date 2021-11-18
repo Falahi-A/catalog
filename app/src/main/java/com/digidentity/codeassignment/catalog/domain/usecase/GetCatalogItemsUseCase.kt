@@ -10,7 +10,6 @@ import com.digidentity.codeassignment.catalog.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Named

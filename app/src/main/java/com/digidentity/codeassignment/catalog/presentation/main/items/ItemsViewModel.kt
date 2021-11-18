@@ -19,7 +19,9 @@ class ItemsViewModel @Inject constructor(private val getCatalogItemsUseCase: Get
     private val _items = MutableLiveData<ItemsViewState>()
     val items: LiveData<ItemsViewState> = _items
 
-
+    init {
+        getItems()
+    }
 
     fun getItems(itemId: ItemId? = null) {
         getCatalogItemsUseCase(itemId).onEach { result ->
