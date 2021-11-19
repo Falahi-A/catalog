@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="18dp">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_text_item_add_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/text"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_confidence_item_add_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/confidence"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_item_add_dialog" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_insert_item_add_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/insert"
+        app:layout_constraintEnd_toStartOf="@+id/btn_cancel_item_add_dialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_confidence_item_add_dialog" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cancel_item_add_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_insert_item_add_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/edit_confidence_item_add_dialog" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

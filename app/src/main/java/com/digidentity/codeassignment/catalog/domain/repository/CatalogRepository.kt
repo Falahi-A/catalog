@@ -2,6 +2,7 @@ package com.digidentity.codeassignment.catalog.domain.repository
 
 import com.digidentity.codeassignment.catalog.data.database.ItemEntity
 import com.digidentity.codeassignment.catalog.data.network.model.ItemNetResponse
+import com.digidentity.codeassignment.catalog.domain.model.NewItem
 import kotlinx.coroutines.flow.Flow
 
 interface CatalogRepository {

@@ -2,8 +2,8 @@ package com.digidentity.codeassignment.catalog.presentation.main.items
 
 import com.digidentity.codeassignment.catalog.domain.model.Item
 
-data class ItemsViewState(
-    val data: List<Item> = emptyList(),
+data class NewItemViewState(
     val loading: Boolean = false,
-    val errorMessage: String = "",
+    val newItem: Item? = null,
+    val errorMessage: String = ""
 )

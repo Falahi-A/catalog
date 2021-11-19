@@ -2,17 +2,15 @@ package com.digidentity.codeassignment.catalog.domain.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.gson.Gson
 
-data class Item(val id: String, val text: String, val image: String?, val confidence: Double) :
+data class Item(val id: String, val text: String, val image: String, val confidence: Double) :
     Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString(),
+        parcel.readString() ?: "",
         parcel.readDouble()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
@@ -37,5 +35,3 @@ data class Item(val id: String, val text: String, val image: String?, val confid
 }
 
 
-fun Item.toJson(): String =
-    Gson().toJson(this)

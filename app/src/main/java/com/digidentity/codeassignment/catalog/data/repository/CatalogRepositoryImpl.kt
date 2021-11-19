@@ -4,6 +4,7 @@ import com.digidentity.codeassignment.catalog.data.database.ItemEntity
 import com.digidentity.codeassignment.catalog.data.database.ItemsDao
 import com.digidentity.codeassignment.catalog.data.network.CatalogApiService
 import com.digidentity.codeassignment.catalog.data.network.model.ItemNetResponse
+import com.digidentity.codeassignment.catalog.domain.model.NewItem
 import com.digidentity.codeassignment.catalog.domain.repository.CatalogRepository
 import javax.inject.Inject
 

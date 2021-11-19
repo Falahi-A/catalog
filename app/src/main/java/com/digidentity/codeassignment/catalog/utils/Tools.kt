@@ -14,9 +14,9 @@ fun loadImage(url: String, imageView: AppCompatImageView) {
 fun buildImageUrl(
     baseImageUrl: String = Constants.BASE_IMAGE_URL,
     imageSize: String = Constants.IMAGE_SIZE_256x256,
-    imageId: String? = ""
+    text: String
 ) =
-    "$baseImageUrl$imageSize$imageId"
+    "$baseImageUrl$imageSize${Constants.TEXT_URL}$text"
 
 sealed class ItemId(val value: String) {
 

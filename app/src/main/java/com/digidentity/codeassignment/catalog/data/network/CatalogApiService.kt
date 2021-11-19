@@ -1,10 +1,7 @@
 package com.digidentity.codeassignment.catalog.data.network
 
 import com.digidentity.codeassignment.catalog.data.network.model.ItemNetResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface CatalogApiService {
 
@@ -22,6 +19,6 @@ interface CatalogApiService {
 
     // ======== add new item to catalog ========
     @POST("items")
-    suspend fun addNewItem(@Body item: String): ItemNetResponse
+    suspend fun addNewItem(@Body newItem: String): ItemNetResponse
 
 }

@@ -8,7 +8,6 @@ import com.digidentity.codeassignment.catalog.R
 import com.digidentity.codeassignment.catalog.databinding.ItemViewBinding
 import com.digidentity.codeassignment.catalog.domain.model.Item
 import com.digidentity.codeassignment.catalog.presentation.base.BaseViewHolder
-import com.digidentity.codeassignment.catalog.utils.buildImageUrl
 import com.digidentity.codeassignment.catalog.utils.loadImage
 
 class ItemsAdapter(private val onItemClick: (Item) -> Unit) :
@@ -42,8 +41,6 @@ class ItemsAdapter(private val onItemClick: (Item) -> Unit) :
                 onItemClick(obj)
             }
 
-            val imageUrl = buildImageUrl(imageId = obj.image)
-            loadImage(imageUrl, viewItem.imgItem)
         }
 
 

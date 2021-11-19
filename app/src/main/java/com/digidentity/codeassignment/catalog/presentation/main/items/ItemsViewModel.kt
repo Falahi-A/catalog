@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.digidentity.codeassignment.catalog.domain.model.NewItem
+import com.digidentity.codeassignment.catalog.domain.usecase.AddCatalogNewItemUseCase
 import com.digidentity.codeassignment.catalog.domain.usecase.GetCatalogItemsUseCase
 import com.digidentity.codeassignment.catalog.utils.ItemId
 import com.digidentity.codeassignment.catalog.utils.Resource
@@ -13,11 +15,18 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class ItemsViewModel @Inject constructor(private val getCatalogItemsUseCase: GetCatalogItemsUseCase) :
+class ItemsViewModel @Inject constructor(
+    private val getCatalogItemsUseCase: GetCatalogItemsUseCase,
+    private val addCatalogNewItemUseCase: AddCatalogNewItemUseCase
+) :
     ViewModel() {
 
     private val _items = MutableLiveData<ItemsViewState>()
     val items: LiveData<ItemsViewState> = _items
+
+    private val _newItem = MutableLiveData<NewItemViewState>()
+    val newItem: LiveData<NewItemViewState> = _newItem
+
 
     init {
         getItems()
@@ -32,10 +41,12 @@ class ItemsViewModel @Inject constructor(private val getCatalogItemsUseCase: Get
 
                 }
                 is Resource.Success -> {
-                    _items.value = ItemsViewState(data = result.data)
+                    _items.value = ItemsViewState(data = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
-                    _items.value = ItemsViewState(errorMessage = result.message)
+                    _items.value = ItemsViewState(
+                        errorMessage = result.message ?: "an unexpected error happened"
+                    )
 
                 }
             }
@@ -43,5 +54,24 @@ class ItemsViewModel @Inject constructor(private val getCatalogItemsUseCase: Get
         }.launchIn(viewModelScope)
     }
 
+    fun addNewItem(item: NewItem) {
+        addCatalogNewItemUseCase(item).onEach { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    _newItem.value = NewItemViewState(loading = true)
 
+                }
+                is Resource.Success -> {
+                    _newItem.value = NewItemViewState(newItem = result.data)
+                }
+                is Resource.Error -> {
+                    _newItem.value = NewItemViewState(
+                        errorMessage = result.message ?: "an unexpected error happened"
+                    )
+
+                }
+            }
+
+        }.launchIn(viewModelScope)
+    }
 }

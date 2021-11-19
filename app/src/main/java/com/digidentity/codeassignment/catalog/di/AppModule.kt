@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -31,6 +32,7 @@ object AppModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder().client(okHttpClient)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create())
             .baseUrl(Constants.BASE_URL).build()
 
@@ -40,7 +42,9 @@ object AppModule {
         OkHttpClient.Builder().addInterceptor { interpolator ->
             val request = interpolator.request()
             val newRequest =
-                request.newBuilder().addHeader(Constants.HEADER_NAME, Constants.HEADER_VALUE)
+                request.newBuilder()
+                    .header(Constants.CONTENT_TYPE_NAME,Constants.CONTENT_TYPE_VALUE)
+                    .addHeader(Constants.HEADER_NAME, Constants.HEADER_VALUE)
                     .build()
             interpolator.proceed(newRequest)
         }.build()

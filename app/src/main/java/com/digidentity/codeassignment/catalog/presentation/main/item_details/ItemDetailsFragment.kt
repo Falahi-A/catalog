@@ -6,8 +6,6 @@ import androidx.navigation.fragment.navArgs
 import com.digidentity.codeassignment.catalog.R
 import com.digidentity.codeassignment.catalog.databinding.FragmentItemDetailsBinding
 import com.digidentity.codeassignment.catalog.presentation.base.BaseBindingFragment
-import com.digidentity.codeassignment.catalog.utils.buildImageUrl
-import com.digidentity.codeassignment.catalog.utils.loadImage
 
 /**
  *  Display Catalog Item Details
@@ -31,8 +29,7 @@ class ItemDetailsFragment : BaseBindingFragment<FragmentItemDetailsBinding>() {
         binding.txtItemConfidenceDetails.text =
             context?.getString(R.string.confidence).plus(itemDetails.confidence.toString())
 
-        val imageUrl = buildImageUrl(imageId = itemDetails.image)
-        loadImage(imageUrl, binding.imgItemDetails)
+
     }
 
 

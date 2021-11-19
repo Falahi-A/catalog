@@ -25,19 +25,22 @@ class GetCatalogItemsUseCase @Inject constructor(
             emit(Resource.Loading())
             when (itemId) {
                 is ItemId.SinceID -> {
-                    val sinceItems = catalogRepository.getItemsSinceId(itemId.value)
-                    if (sinceItems.isNotEmpty())
+                    val sinceItems =
+                        catalogRepository.getItemsSinceId(itemId.value) // the most recent items are being fetched from server
+                    if (sinceItems.isNotEmpty()) // if it's not empty, items are being inserted to the database
                         catalogRepository.insertItemsDb(sinceItems.map { itemNetResponse -> itemNetResponse.toItemEntity() })
                 }
                 is ItemId.MaxID -> {
-                    val maxItems = catalogRepository.getItemsMaxId(itemId.value)
-                    if (maxItems.isNotEmpty())
+                    val maxItems =
+                        catalogRepository.getItemsMaxId(itemId.value)  // the next items are being fetched from server
+                    if (maxItems.isNotEmpty()) // if it's not empty, items are being inserted to database
                         catalogRepository.insertItemsDb(maxItems.map { itemNetResponse -> itemNetResponse.toItemEntity() })
                 }
-                else -> {
-                    val recentItems = catalogRepository.getRecentItems()
-                    catalogRepository.deleteAllItemsDb()
-                    catalogRepository.insertItemsDb(recentItems.map { itemNetResponse -> itemNetResponse.toItemEntity() })
+                else -> { // it means, this is the first time the app is launched for fetching items
+                    val recentItems =
+                        catalogRepository.getRecentItems() // getting recent items form server
+                    catalogRepository.deleteAllItemsDb()  // delete all previous items from database
+                    catalogRepository.insertItemsDb(recentItems.map { itemNetResponse -> itemNetResponse.toItemEntity() }) // inserting recent items to database
                 }
             }
 
