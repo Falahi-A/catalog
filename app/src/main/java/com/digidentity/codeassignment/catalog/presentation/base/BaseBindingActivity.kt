@@ -4,13 +4,17 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.digidentity.codeassignment.catalog.R
 import com.digidentity.codeassignment.catalog.databinding.ActivityBaseBinding
 import com.google.android.material.snackbar.Snackbar
+
 
 /**
  *  A parent for every activity that wanna implement viewBinding.
@@ -77,8 +81,20 @@ BaseBindingActivity<VB : ViewBinding> : AppCompatActivity() {
         _binding = null
     }
 
-    fun displayMessage(message: String) {
-        Snackbar.make(baseViewBinding.root, message, Snackbar.LENGTH_LONG).show()
+    fun displayMessage(
+        message: String,
+        duration: Int = Snackbar.LENGTH_LONG,
+        onClickListener: View.OnClickListener? = null
+    ) {
+        val snackBar = Snackbar.make(baseViewBinding.root, message,duration)
+            .setAction(getString(R.string.retry), onClickListener)
+        // Make snackBar to be shown on top of screen
+        val view: View = snackBar.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.CENTER
+        view.layoutParams = params
+
+        snackBar.show()
     }
 
 

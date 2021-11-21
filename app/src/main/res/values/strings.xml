@@ -8,5 +8,7 @@
     <string name="cancel">Cancel</string>
     <string name="new_catalog_item">New catalog item</string>
     <string name="fill_the_fields">Fill the fields and try again</string>
-    <string name="no_items_message">Catalog has no items. add new item to catalog and refresh the page.</string>
+    <string name="no_item_message">Catalog has no item. add new item to catalog and retry.</string>
+    <string name="retry">Retry</string>
+    <string name="new_catalog_item_was_added">New item was added</string>
 </resources>

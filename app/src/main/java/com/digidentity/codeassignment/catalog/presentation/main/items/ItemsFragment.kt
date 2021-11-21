@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.digidentity.codeassignment.catalog.R
@@ -15,6 +16,7 @@ import com.digidentity.codeassignment.catalog.presentation.base.BaseBindingFragm
 import com.digidentity.codeassignment.catalog.presentation.main.MainActivity
 import com.digidentity.codeassignment.catalog.utils.ItemId
 import com.digidentity.codeassignment.catalog.utils.buildImageUrl
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -34,7 +36,7 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
     private fun goToItemDetails(item: Item) {
         val action =
             ItemsFragmentDirections.actionItemsFragmentToItemDetailsFragment(item)
-        findNavController().navigate(action)
+        findNavController().navigate(action, NavOptions.Builder().setLaunchSingleTop(true).build())
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentItemsBinding =
@@ -60,26 +62,28 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
     }
 
     private fun observeNewItemViewState() {
-        viewModel.newItem.observe(viewLifecycleOwner, { newItemViewState ->
+        viewModel.newItem.observe(viewLifecycleOwner, { newItemEvent ->
 
-            when {
+            newItemEvent.getContentIfNotHandled()
+                ?.let { newItemViewState ->  // Only proceed if the event has never been handled
+                    when {
 
-                newItemViewState.loading -> { // loading data
-                    (activity as MainActivity).displayProgress(true)
+                        newItemViewState.loading -> { // loading data
+                            (activity as MainActivity).displayProgress(true)
+                        }
+
+                        newItemViewState.newItem != null -> { // data handling. new item was added to catalog
+                            (activity as MainActivity).displayProgress(false)
+                            (activity as MainActivity).displayMessage(getString(R.string.new_catalog_item_was_added))
+                        }
+
+                        newItemViewState.errorMessage.isNotEmpty() -> {   // error handling
+                            (activity as MainActivity).displayProgress(false)
+                            (activity as MainActivity).displayMessage(newItemViewState.errorMessage)
+                        }
+
+                    }
                 }
-
-                newItemViewState.newItem != null -> { // data handling. new item was added to catalog
-                    (activity as MainActivity).displayProgress(false)
-                    (activity as MainActivity).displayMessage("${newItemViewState.newItem.text} was added to catalog")
-
-                }
-
-                newItemViewState.errorMessage.isNotEmpty() -> {   // error handling
-                    (activity as MainActivity).displayProgress(false)
-                    (activity as MainActivity).displayMessage(newItemViewState.errorMessage)
-                }
-
-            }
 
         })
     }
@@ -97,15 +101,22 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
                     (activity as MainActivity).displayProgress(false)
                     adapter.submitList(itemsViewState.data)
                 }
-                itemsViewState.data.isEmpty() && itemsViewState.errorMessage.isEmpty() -> { // items empty handling. when catalog has no items
+                itemsViewState.data.isEmpty() && itemsViewState.errorMessage.isEmpty() -> { // empty data handling. when catalog has no item
                     (activity as MainActivity).displayProgress(false)
-                    (activity as MainActivity).displayMessage(requireContext().getString(R.string.no_items_message))
+                    (activity as MainActivity).displayMessage(
+                        message = getString(R.string.no_item_message),
+                        duration = Snackbar.LENGTH_INDEFINITE
+                    ) {
+                        getItems()
+                    }
 
                 }
 
                 itemsViewState.errorMessage.isNotEmpty() -> {   // error handling
                     (activity as MainActivity).displayProgress(false)
-                    (activity as MainActivity).displayMessage(itemsViewState.errorMessage)
+                    (activity as MainActivity).displayMessage(
+                        message = itemsViewState.errorMessage
+                    )
                 }
 
             }
@@ -121,13 +132,13 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
                 if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                     //reached end
                     val lastItem = adapter.currentList.last() // last list item
-                    viewModel.getItems(ItemId.MaxID(lastItem.id)) // fetching next items
+                    getItems(ItemId.MaxID(lastItem.id)) // fetching next items
                 }
 
                 if (!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                     // reached top
                     val firstItem = adapter.currentList.first()  // first list item
-                    viewModel.getItems(ItemId.SinceID(firstItem.id)) // fetching most recent items
+                    getItems(ItemId.SinceID(firstItem.id)) // fetching most recent items
 
                 }
 
@@ -146,23 +157,29 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
         binding.btnInsertItemAddDialog.setOnClickListener {
             val itemText = binding.editTextItemAddDialog.text.toString()
             val itemConfidence = binding.editConfidenceItemAddDialog.text.toString()
-            if (!itemText.isNullOrEmpty() && !itemConfidence.isNullOrEmpty()) {    // check if dialog item texts are filled or not
-                viewModel.addNewItem(
-                    NewItem(
-                        text = itemText,
-                        confidence = itemConfidence.toDouble(),
-                        image = buildImageUrl(text = itemText)
-                    )
+            if (itemText.isNotEmpty() && itemConfidence.isNotEmpty()) {    // check if dialog edit texts are filled or not
+                val newItem = NewItem(
+                    text = itemText,
+                    confidence = itemConfidence.toDouble(),
+                    image = buildImageUrl(text = itemText)
                 )
-
+                addNewItemToCatalog(newItem)
                 dialog.dismiss()
             } else {
-                (activity as MainActivity).displayMessage(requireContext().getString(R.string.fill_the_fields))
+                dialog.dismiss()
+                (activity as MainActivity).displayMessage(getString(R.string.fill_the_fields))
             }
         }
 
         dialog.show()
     }
 
+    private fun addNewItemToCatalog(newItem: NewItem) {
+        viewModel.addNewItem(newItem)
+    }
+
+    fun getItems(itemId: ItemId? = null) {
+        viewModel.getItems(itemId)
+    }
 
 }

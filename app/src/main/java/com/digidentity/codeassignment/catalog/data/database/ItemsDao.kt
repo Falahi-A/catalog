@@ -14,4 +14,5 @@ interface ItemsDao {
     @Query("DELETE FROM catalog_items")
     suspend fun deleteAllItems()
 
+
 }

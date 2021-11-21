@@ -1,12 +1,10 @@
 package com.digidentity.codeassignment.catalog.presentation.main.items
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.digidentity.codeassignment.catalog.domain.model.NewItem
 import com.digidentity.codeassignment.catalog.domain.usecase.AddCatalogNewItemUseCase
 import com.digidentity.codeassignment.catalog.domain.usecase.GetCatalogItemsUseCase
+import com.digidentity.codeassignment.catalog.utils.Event
 import com.digidentity.codeassignment.catalog.utils.ItemId
 import com.digidentity.codeassignment.catalog.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,8 +22,8 @@ class ItemsViewModel @Inject constructor(
     private val _items = MutableLiveData<ItemsViewState>()
     val items: LiveData<ItemsViewState> = _items
 
-    private val _newItem = MutableLiveData<NewItemViewState>()
-    val newItem: LiveData<NewItemViewState> = _newItem
+    private val _newItem = MutableLiveData<Event<NewItemViewState>>()
+    val newItem: LiveData<Event<NewItemViewState>> = _newItem
 
 
     init {
@@ -58,15 +56,17 @@ class ItemsViewModel @Inject constructor(
         addCatalogNewItemUseCase(item).onEach { result ->
             when (result) {
                 is Resource.Loading -> {
-                    _newItem.value = NewItemViewState(loading = true)
+                    _newItem.value = Event(NewItemViewState(loading = true))
 
                 }
                 is Resource.Success -> {
-                    _newItem.value = NewItemViewState(newItem = result.data)
+                    _newItem.value = Event(NewItemViewState(newItem = result.data))
                 }
                 is Resource.Error -> {
-                    _newItem.value = NewItemViewState(
-                        errorMessage = result.message ?: "an unexpected error happened"
+                    _newItem.value = Event(
+                        NewItemViewState(
+                            errorMessage = result.message ?: "an unexpected error happened"
+                        )
                     )
 
                 }

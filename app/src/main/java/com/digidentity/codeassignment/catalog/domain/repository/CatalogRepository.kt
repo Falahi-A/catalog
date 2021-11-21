@@ -33,6 +33,7 @@ interface CatalogRepository {
 
     suspend fun insertItemsDb(items: List<ItemEntity>)
 
+
     suspend fun getAllItemsDb(): List<ItemEntity>
 
 

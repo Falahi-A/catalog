@@ -8,6 +8,8 @@ import com.digidentity.codeassignment.catalog.R
 import com.digidentity.codeassignment.catalog.databinding.ItemViewBinding
 import com.digidentity.codeassignment.catalog.domain.model.Item
 import com.digidentity.codeassignment.catalog.presentation.base.BaseViewHolder
+import com.digidentity.codeassignment.catalog.utils.buildImageUrl
+import com.digidentity.codeassignment.catalog.utils.loadImage
 
 class ItemsAdapter(private val onItemClick: (Item) -> Unit) :
     ListAdapter<Item, ItemsAdapter.ItemsViewHolder>(DiffConfig) {
@@ -32,10 +34,15 @@ class ItemsAdapter(private val onItemClick: (Item) -> Unit) :
         BaseViewHolder<Item>(viewItem.root) {
 
         override fun onBind(obj: Item) {
-            viewItem.textItem.text = itemView.context.getString(R.string.text).plus(": ").plus(obj.text)
-            viewItem.textIdItem.text = itemView.context.getString(R.string.id).plus(": ").plus(obj.id)
+            viewItem.textItem.text =
+                itemView.context.getString(R.string.text).plus(": ").plus(obj.text)
+            viewItem.textIdItem.text =
+                itemView.context.getString(R.string.id).plus(": ").plus(obj.id)
             viewItem.textConfidenceItem.text =
-                itemView.context.getString(R.string.confidence).plus(": ").plus(obj.confidence.toString())
+                itemView.context.getString(R.string.confidence).plus(": ")
+                    .plus(obj.confidence.toString())
+            loadImage(obj.image, viewItem.imgItem)
+
             viewItem.root.setOnClickListener {
                 onItemClick(obj)
             }

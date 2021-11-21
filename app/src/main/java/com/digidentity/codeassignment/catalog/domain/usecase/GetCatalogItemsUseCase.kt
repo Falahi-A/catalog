@@ -43,10 +43,10 @@ class GetCatalogItemsUseCase @Inject constructor(
                     catalogRepository.insertItemsDb(recentItems.map { itemNetResponse -> itemNetResponse.toItemEntity() }) // inserting recent items to database
                 }
             }
-
-            emit(Resource.Success(data = catalogRepository.getAllItemsDb().map { itemEntity ->
+            val items = catalogRepository.getAllItemsDb().map { itemEntity ->
                 itemEntity.toItem()
-            }))
+            }.sortedByDescending { item -> item.id }
+            emit(Resource.Success(data = items))
 
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage))
