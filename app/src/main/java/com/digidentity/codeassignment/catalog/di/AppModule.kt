@@ -2,7 +2,6 @@ package com.digidentity.codeassignment.catalog.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.digidentity.codeassignment.catalog.data.database.ItemsDao
 import com.digidentity.codeassignment.catalog.data.database.ItemsDataBase
 import com.digidentity.codeassignment.catalog.data.network.CatalogApiService
@@ -16,6 +15,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -43,7 +44,7 @@ object AppModule {
             val request = interpolator.request()
             val newRequest =
                 request.newBuilder()
-                    .header(Constants.CONTENT_TYPE_NAME,Constants.CONTENT_TYPE_VALUE)
+                    .header(Constants.CONTENT_TYPE_NAME, Constants.CONTENT_TYPE_VALUE)
                     .addHeader(Constants.HEADER_NAME, Constants.HEADER_VALUE)
                     .build()
             interpolator.proceed(newRequest)
@@ -74,7 +75,10 @@ object AppModule {
     @Singleton
     @Provides
     fun provideItemsDatabase(@ApplicationContext context: Context): ItemsDataBase =
-        Room.databaseBuilder(context, ItemsDataBase::class.java, Constants.DATABASE_NAME).build()
+        Room.databaseBuilder(context, ItemsDataBase::class.java, Constants.DATABASE_NAME)
+            .openHelperFactory(SupportFactory(SQLiteDatabase.getBytes("PassPhrase".toCharArray())))
+            .build()
+
 
     @Singleton
     @Provides

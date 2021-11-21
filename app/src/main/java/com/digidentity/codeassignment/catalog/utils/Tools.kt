@@ -13,7 +13,7 @@ fun loadImage(url: String, imageView: AppCompatImageView) {
 
 fun buildImageUrl(
     baseImageUrl: String = Constants.BASE_IMAGE_URL,
-    imageSize: String = Constants.IMAGE_SIZE_256x256,
+    imageSize: String = Constants.IMAGE_SIZE_512x512,
     text: String
 ) =
     "$baseImageUrl$imageSize${Constants.TEXT_URL}$text"

@@ -24,10 +24,13 @@ class ItemDetailsFragment : BaseBindingFragment<FragmentItemDetailsBinding>() {
 
         val itemDetails = args.item
 
-        binding.txtItemTextDetails.text = context?.getString(R.string.text).plus(itemDetails.text)
-        binding.txtItemIdDetails.text = context?.getString(R.string.id).plus(itemDetails.id)
+        binding.txtItemTextDetails.text =
+            context?.getString(R.string.text).plus(": ").plus(itemDetails.text)
+        binding.txtItemIdDetails.text =
+            context?.getString(R.string.id).plus(": ").plus(itemDetails.id)
         binding.txtItemConfidenceDetails.text =
-            context?.getString(R.string.confidence).plus(itemDetails.confidence.toString())
+            context?.getString(R.string.confidence).plus(": ")
+                .plus(itemDetails.confidence.toString())
 
 
     }

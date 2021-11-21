@@ -144,8 +144,8 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
             dialog.dismiss()
         }
         binding.btnInsertItemAddDialog.setOnClickListener {
-            val itemText = binding.editTextItemAddDialog.text?.toString()
-            val itemConfidence = binding.editConfidenceItemAddDialog.text?.toString()
+            val itemText = binding.editTextItemAddDialog.text.toString()
+            val itemConfidence = binding.editConfidenceItemAddDialog.text.toString()
             if (!itemText.isNullOrEmpty() && !itemConfidence.isNullOrEmpty()) {    // check if dialog item texts are filled or not
                 viewModel.addNewItem(
                     NewItem(
@@ -157,7 +157,6 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
 
                 dialog.dismiss()
             } else {
-                dialog.dismiss()
                 (activity as MainActivity).displayMessage(requireContext().getString(R.string.fill_the_fields))
             }
         }
