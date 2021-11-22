@@ -26,6 +26,9 @@ class ItemsViewModel @Inject constructor(
     val newItem: LiveData<Event<NewItemViewState>> = _newItem
 
 
+    init {
+        getItems()
+    }
 
 
     fun getItems(itemId: ItemId? = null) {

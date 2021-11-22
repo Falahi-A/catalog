@@ -59,7 +59,6 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
             showAddNewItemDialog()
         }
 
-        getItems()
     }
 
     private fun observeNewItemViewState() {
