@@ -59,6 +59,7 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
             showAddNewItemDialog()
         }
 
+        getItems()
     }
 
     private fun observeNewItemViewState() {
@@ -74,7 +75,7 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
 
                         newItemViewState.newItem != null -> { // data handling. new item was added to catalog
                             (activity as MainActivity).displayProgress(false)
-                            (activity as MainActivity).displayMessage(getString(R.string.new_catalog_item_was_added))
+                            (activity as MainActivity).displayMessage("${newItemViewState.newItem.text} was added to catalog")
                         }
 
                         newItemViewState.errorMessage.isNotEmpty() -> {   // error handling
@@ -105,17 +106,20 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
                     (activity as MainActivity).displayProgress(false)
                     (activity as MainActivity).displayMessage(
                         message = getString(R.string.no_item_message),
-                        duration = Snackbar.LENGTH_INDEFINITE
-                    ) {
-                        getItems()
-                    }
+                        duration = Snackbar.LENGTH_INDEFINITE, onClickListener = {
+                            getItems()
+                        }
+                    )
 
                 }
 
                 itemsViewState.errorMessage.isNotEmpty() -> {   // error handling
                     (activity as MainActivity).displayProgress(false)
                     (activity as MainActivity).displayMessage(
-                        message = itemsViewState.errorMessage
+                        message = itemsViewState.errorMessage,
+                        duration = Snackbar.LENGTH_INDEFINITE, onClickListener = {
+                            getItems()
+                        }
                     )
                 }
 
@@ -179,7 +183,14 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
     }
 
     fun getItems(itemId: ItemId? = null) {
-        viewModel.getItems(itemId)
+        if ((activity as MainActivity).isNetworkAvailable())
+            viewModel.getItems(itemId)
+        else (activity as MainActivity).displayMessage(
+            message = getString(R.string.no_internet_connection),
+            duration = Snackbar.LENGTH_INDEFINITE,
+            onClickListener = {
+                viewModel.getItems(itemId)
+            })
     }
 
 }
