@@ -81,7 +81,7 @@ object AppModule {
         @Named(Constants.MASTER_KEY) masterKey: String
     ): ItemsDataBase =
         Room.databaseBuilder(context, ItemsDataBase::class.java, Constants.DATABASE_NAME)
-            .openHelperFactory(SupportFactory(SQLiteDatabase.getBytes(masterKey.toCharArray())))
+            .openHelperFactory(SupportFactory(SQLiteDatabase.getBytes(masterKey.toCharArray()))) // encrypting database by cipher
             .build()
 
 
@@ -90,6 +90,7 @@ object AppModule {
     fun provideItemsDao(dataBase: ItemsDataBase): ItemsDao = dataBase.getDao()
 
 
+    // a master key for cipher
     @Named(Constants.MASTER_KEY)
     @Singleton
     @Provides
