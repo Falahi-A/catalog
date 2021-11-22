@@ -10,6 +10,8 @@ import com.digidentity.codeassignment.catalog.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.HttpException
+import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Named
@@ -24,8 +26,11 @@ class AddCatalogNewItemUseCase @Inject constructor(
             emit(Resource.Loading())
             val newItem = repository.addNewItem(item.toJson())
             emit(Resource.Success(newItem.toItem()))
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             emit(Resource.Error(e.localizedMessage))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.localizedMessage))
+
         }
     }.flowOn(dispatcher)
 

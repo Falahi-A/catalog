@@ -1,5 +1,6 @@
 package com.digidentity.codeassignment.catalog.domain.usecase
 
+import android.database.sqlite.SQLiteException
 import com.digidentity.codeassignment.catalog.data.database.toItem
 import com.digidentity.codeassignment.catalog.data.network.model.toItemEntity
 import com.digidentity.codeassignment.catalog.domain.model.Item
@@ -10,13 +11,15 @@ import com.digidentity.codeassignment.catalog.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.HttpException
+import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Named
 
 class GetCatalogItemsUseCase @Inject constructor(
     private val catalogRepository: CatalogRepository,
-    @Named(Constants.IO_DISPATCHER) private val ioDispatcher: CoroutineDispatcher
+    @Named(Constants.IO_DISPATCHER) private val dispatcher: CoroutineDispatcher
 ) {
 
 
@@ -48,12 +51,18 @@ class GetCatalogItemsUseCase @Inject constructor(
             }.sortedByDescending { item -> item.id }
             emit(Resource.Success(data = items))
 
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             emit(Resource.Error(e.localizedMessage))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.localizedMessage))
+
+        } catch (e: SQLiteException) {
+            emit(Resource.Error(e.localizedMessage))
+
         }
 
 
-    }.flowOn(ioDispatcher)
+    }.flowOn(dispatcher)
 
 
 }
