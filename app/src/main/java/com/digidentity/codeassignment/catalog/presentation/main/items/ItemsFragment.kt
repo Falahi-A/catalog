@@ -193,7 +193,11 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
     }
 
     private fun addNewItemToCatalog(newItem: NewItem) {
-        viewModel.addNewItem(newItem)
+        if ((activity as MainActivity).isNetworkAvailable())
+            viewModel.addNewItem(newItem)
+        else (activity as MainActivity).displayMessage(
+            message = getString(R.string.no_internet_connection)
+        )
     }
 
     fun getItems(itemId: ItemId? = null) {
