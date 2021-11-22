@@ -28,6 +28,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
         setupActionBarWithNavController(navHostFragment.navController, appBarConfiguration)
 
+
     }
 
 

@@ -75,7 +75,21 @@ class ItemsFragment : BaseBindingFragment<FragmentItemsBinding>() {
 
                         newItemViewState.newItem != null -> { // data handling. new item was added to catalog
                             (activity as MainActivity).displayProgress(false)
-                            (activity as MainActivity).displayMessage("${newItemViewState.newItem.text} was added to catalog")
+                            if (adapter.currentList.isEmpty()) { // depends on list which is empty or not the message will be different
+                                (activity as MainActivity).displayMessage(
+                                    message = "${newItemViewState.newItem.text} was added to catalog",
+                                    duration = Snackbar.LENGTH_INDEFINITE,
+                                    onClickListener = {
+                                        getItems()
+                                    },
+                                    getString(R.string.refresh)
+                                )
+                            } else {
+                                (activity as MainActivity).displayMessage(
+                                    message = "${newItemViewState.newItem.text} was added to catalog.scroll up the list please.",
+                                )
+                            }
+
                         }
 
                         newItemViewState.errorMessage.isNotEmpty() -> {   // error handling

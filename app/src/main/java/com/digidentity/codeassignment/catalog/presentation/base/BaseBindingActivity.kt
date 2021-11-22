@@ -84,14 +84,15 @@ BaseBindingActivity<VB : ViewBinding> : AppCompatActivity() {
     fun displayMessage(
         message: String,
         duration: Int = Snackbar.LENGTH_LONG,
-        onClickListener: View.OnClickListener? = null
+        onClickListener: View.OnClickListener? = null,
+        action: String = getString(R.string.retry)
     ) {
-        val snackBar = Snackbar.make(baseViewBinding.root, message,duration)
-            .setAction(getString(R.string.retry), onClickListener)
+        val snackBar = Snackbar.make(baseViewBinding.root, message, duration)
+            .setAction(action, onClickListener)
         // Make snackBar to be shown on top of screen
         val view: View = snackBar.view
         val params = view.layoutParams as FrameLayout.LayoutParams
-        params.gravity = Gravity.CENTER
+        params.gravity = Gravity.TOP
         view.layoutParams = params
 
         snackBar.show()

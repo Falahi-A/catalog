@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Named
 

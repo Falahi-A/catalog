@@ -10,6 +10,7 @@ object Constants {
     const val BASE_URL = "https://marlove.net/e/mock/v1/"
     const val IO_DISPATCHER = "io_dispatcher"
     const val MAIN_DISPATCHER = "main_dispatcher"
+    const val MASTER_KEY = "master_key"
 
     const val BASE_IMAGE_URL = "https://via.placeholder.com/"
     const val IMAGE_SIZE_512x512 = "512x512"

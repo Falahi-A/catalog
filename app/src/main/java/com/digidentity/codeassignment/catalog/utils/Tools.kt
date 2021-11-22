@@ -21,6 +21,12 @@ fun buildImageUrl(
     text: String
 ) = "$baseImageUrl$imageSize${Constants.TEXT_URL}$text"
 
+
+/**
+ *  We assume there is two type of ids for each item.
+ *  SinceID for fetching recent items than this item
+ *  MaxID for fetching older items than this item
+ */
 sealed class ItemId(val value: String) {
 
     class SinceID(value: String) : ItemId(value)

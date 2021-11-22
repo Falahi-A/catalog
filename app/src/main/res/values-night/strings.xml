@@ -11,4 +11,5 @@
     <string name="no_item_message">Catalog has no item. add new item to catalog and retry.</string>
     <string name="retry">Retry</string>
     <string name="no_internet_connection">Check your internet connection an retry</string>
+    <string name="refresh">Refresh</string>
 </resources>

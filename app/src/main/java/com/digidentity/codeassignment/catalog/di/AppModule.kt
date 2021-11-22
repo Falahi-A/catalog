@@ -1,7 +1,9 @@
 package com.digidentity.codeassignment.catalog.di
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
+import androidx.security.crypto.MasterKeys
 import com.digidentity.codeassignment.catalog.data.database.ItemsDao
 import com.digidentity.codeassignment.catalog.data.database.ItemsDataBase
 import com.digidentity.codeassignment.catalog.data.network.CatalogApiService
@@ -74,13 +76,24 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideItemsDatabase(@ApplicationContext context: Context): ItemsDataBase =
+    fun provideItemsDatabase(
+        @ApplicationContext context: Context,
+        @Named(Constants.MASTER_KEY) masterKey: String
+    ): ItemsDataBase =
         Room.databaseBuilder(context, ItemsDataBase::class.java, Constants.DATABASE_NAME)
-            .openHelperFactory(SupportFactory(SQLiteDatabase.getBytes("PassPhrase".toCharArray())))
+            .openHelperFactory(SupportFactory(SQLiteDatabase.getBytes(masterKey.toCharArray())))
             .build()
 
 
     @Singleton
     @Provides
     fun provideItemsDao(dataBase: ItemsDataBase): ItemsDao = dataBase.getDao()
+
+
+    @Named(Constants.MASTER_KEY)
+    @Singleton
+    @Provides
+    fun provideMasterKey(): String =
+        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+
 }
